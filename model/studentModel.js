@@ -6,9 +6,13 @@ const studentSchema = new mongoose.Schema({
   password: String,
   bookedSlots: [
     {
+      slotId: String,
       professorId: String,
       professorName: String,
-      time: String,
+      time: {
+        startTime: String,
+        endTime: String,
+      },
     },
   ],
 });

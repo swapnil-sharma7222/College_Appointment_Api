@@ -4,10 +4,19 @@ const professorSchema = new mongoose.Schema({
   professorId: String,
   name: String,
   password: String,
-  availableSlots: [String],
+  availableSlots: [
+    {
+      startTime: String,
+      endTime: String,
+    },
+  ],
   bookedSlots: [
     {
-      time: String,
+      slotId: String,
+      time: {
+        startTime: String,
+        endTime: String,
+      },
       studentId: String,
       studentName: String,
     },

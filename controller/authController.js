@@ -49,7 +49,7 @@ exports.login = async (req, res) => {
       const validPassword = await bcrypt.compare(password, user.password);
       if (!validPassword) return res.status(400).send('Invalid password');
 
-      const token = jwt.sign({ id: user.id, role }, process.env.JWT_SECRET);
+      const token = jwt.sign({ id: id, role }, process.env.JWT_SECRET);
       res.status(201).json({
         token: token,
         message: 'Student logged in successfully',
@@ -66,7 +66,7 @@ exports.login = async (req, res) => {
       const validPassword = await bcrypt.compare(password, user.password);
       if (!validPassword) return res.status(400).send('Invalid password');
 
-      const token = jwt.sign({ id: user.id, role }, JWT_SECRET);
+      const token = jwt.sign({ id: id, role }, process.env.JWT_SECRET);
       res.status(200).json({
         token: token,
         message: 'Professor logged in successfully',
