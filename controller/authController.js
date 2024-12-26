@@ -46,8 +46,8 @@ exports.login = async (req, res) => {
     try {
       user = await Student.findOne({ studentId: id });
       if (!user) return res.status(404).send('User not found');
-      const validPassword = await bcrypt.compare(password, user.password);
-      if (!validPassword) return res.status(400).send('Invalid password');
+      const validPassword = bcrypt.compare(password, user.password);
+      if (!validPassword) return res.status(401).send('Invalid password');
 
       const token = jwt.sign({ id: id, role }, process.env.JWT_SECRET);
       res.status(201).json({
