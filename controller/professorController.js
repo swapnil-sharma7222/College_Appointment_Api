@@ -1,14 +1,14 @@
 const Professor = require('./../model/professorModel');
-const Student= require('./../model/studentModel');
+const Student = require('./../model/studentModel');
 
 exports.addSlots = async (req, res) => {
   try {
     const { slots } = req.body;
     console.log(req.user);
-    
+
     const professor = await Professor.findOne({ professorId: req.user.id });
     console.log(professor);
-    
+
     if (!professor) return res.status(404).send('Professor not found');
 
     professor.availableSlots.push(...slots);
@@ -30,25 +30,25 @@ exports.cancelAppointment = async (req, res) => {
 
     const professor = await Professor.findOne({ professorId: req.user.id });
     console.log(professor);
-    
+
     const student = await Student.findOne({ studentId });
     console.log(student);
 
     if (!professor || !student) return res.status(404).send('Professor or student not found');
 
     const slotIndex = professor.bookedSlots.findIndex((slot) => {
-      if(slot){
+      if (slot) {
         return slot.studentId === studentId && slot.slotId === slotId
       }
-  });
+    });
     if (slotIndex === -1) return res.status(400).send('No such slot found');
-    const slotToBeCancelled= professor.bookedSlots[slotIndex] 
+    const slotToBeCancelled = professor.bookedSlots[slotIndex]
     console.log(slotToBeCancelled);
-    
+
     professor.availableSlots.push(slotToBeCancelled.time);
     professor.bookedSlots.splice(slotIndex, 1);
 
-    const studentSlotIndex = student.bookedSlots.findIndex(slot => slot.slotId=== slotId && slot.professorId === professor.professorId);
+    const studentSlotIndex = student.bookedSlots.findIndex(slot => slot.slotId === slotId && slot.professorId === professor.professorId);
     student.bookedSlots.splice(studentSlotIndex, 1);
 
     await professor.save();
