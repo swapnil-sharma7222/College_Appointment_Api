@@ -8,14 +8,14 @@ const connectdb = require('./db')
 const app = express();
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }))
-require('dotenv').config();
+require('dotenv').config({ path: './.env' });
 connectdb();
 
 app.use('/auth', authRoutes);
 app.use('/professor', professorRoutes);
 app.use('/student', studentRoutes);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
